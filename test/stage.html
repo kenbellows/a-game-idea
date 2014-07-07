@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+    <!--<script src="guy.js"></script>-->
+  </head>
+  <body>
+    <canvas id="test" width=500 height=500>alt</canvas>
+    <input type="range" min=25 max=250 value=50 step=1 />
+    <script>
+      // alias createjs
+      var c = createjs;
+
+      // create a stage
+      var stage = new c.Stage("test");
+      
+      // create some graphics
+      var circle = new createjs.Shape();
+      circle.graphics.beginFill("red").drawCircle(0,0,50);
+      circle.x = 100;
+      circle.y = 100;
+      stage.addChild(circle);
+
+      stage.update();
+
+      document.getElementsByTagName("input")[0].onchange = function() {
+        console.log(this.value);
+        stage.clear();
+        circle.graphics.clear();
+        circle.graphics.beginFill("red").drawCircle(0,0,this.value);
+        circle.x = this.value;
+        circle.y = this.value;
+        stage.update();
+      };
+    </script>
+  </body>
+</html>
+

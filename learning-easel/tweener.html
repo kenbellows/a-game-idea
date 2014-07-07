@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- saved from url=(0202)https://s3.amazonaws.com/entp-tender-production/assets/8ccd01973751ad7bf3058770ceb856f3448cd338/index.html?AWSAccessKeyId=AKIAISVUXXOK32ATONEQ&Expires=1404649017&Signature=pMXjtonuTvhYDlWcghhblKmet2Y%3D -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script src="./tweener_files/easeljs-0.5.0.min.js"></script>
+    <script src="./tweener_files/tweenjs-0.3.0.min.js"></script>
+    <script type="text/javascript">
+
+        var canvas, stage, timeline;
+        var paused=true;
+
+        /**
+         * Initializes all graphical objects (two ellipses) and the timeline and tweens
+         */
+        function init()
+        {
+            canvas = document.getElementById("canvas");
+
+            stage = new createjs.Stage(canvas);
+
+            var ellipse = createEllipse(10,10,100,100);
+            var ellipse2 = createEllipse(400, 10, 100, 100);
+
+            createjs.Ticker.setFPS(24);
+            createjs.Ticker.addListener(stage);
+
+            var tween = createjs.Tween.get(ellipse, {paused:true}).to({x:400, y:400}, 5000);
+            var tween2 = createjs.Tween.get(ellipse2, {paused:true}).to({x:10, y:400}, 4000);
+
+            timeline = new createjs.Timeline([tween, tween2],{paused:true});
+            timeline.setPaused(true);
+
+            stage.addChild(ellipse);
+            stage.addChild(ellipse2);
+            stage.update();
+        }
+
+        /**
+         * Creates an ellipse object with a text inside (I wanted to see how text movement would look like)
+         *
+         * @param x the x position
+         * @param y the y position
+         * @param width the object width
+         * @param height the object height
+         * @return {createjs.Container} the created container (containing the ellipse) used by the addChild
+         */
+        function createEllipse(x, y, width, height)
+        {
+            var container = new createjs.Container();
+
+            container.x = x;
+            container.y = y;
+            container.width = width;
+            container.height = height;
+
+            var s = new createjs.Shape();
+            s.graphics.f(createjs.Graphics.getRGB(0x66,0xFF,0xFF,1)).setStrokeStyle(2).beginStroke("#336699").drawEllipse(0,0, width, height);
+            s.x = 2;
+            s.y = 2;
+            container.addChild(s);
+
+            var centralText = new createjs.Text("Ellipse", "14px Arial", "#0000FF");
+            centralText.x = width / 2;
+            centralText.y = (height / 2 - centralText.getMeasuredHeight() / 2);
+            centralText.textAlign = "center";
+            centralText.width = width;
+            container.addChild(centralText);
+
+            return container;
+        }
+
+        /**
+         * Rewinds the  animation
+         */
+        function rewindclick()
+        {
+            timeline.setPosition(0);
+        }
+
+        function togglePlayPause()
+        {
+            paused = !paused;
+            timeline.setPaused(paused);
+        }
+
+        function stop()
+        {
+            paused = true;
+            timeline.setPaused(paused);
+            rewindclick();
+        }
+    </script>
+</head>
+<body onload="init()">
+<div style="position:absolute;bottom:0;width:99%;height:30px;display: inline-block;">
+    <button type="button" onclick="rewindclick()">Rewind</button>
+    <button type="button" onclick="togglePlayPause()">play/pause</button>
+    <button type="button" onclick="stop()">stop</button>
+</div>
+<canvas width="1400" height="840" id="canvas"></canvas>
+
+</body></html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+  </head>
+  <body>
+    <canvas id="test" width=300 height=400>alt</canvas>
+    <script>
+      var c = createjs;
+      var stage = new c.Stage("test");
+
+      var bg = new c.Shape();
+      bg.graphics.beginFill("#CCC").drawRoundRect(0,0,100,30,8);
+
+      var label = new c.Text("Heyo!!!", "bold 12px Arial");
+      label.set({textAlign:"center", x:50, textBaseline:"middle", y:15});
+
+      var button = stage.addChild(new c.Container());
+      button.x = button.y = 100;
+      button.addChild(bg, label);
+
+      button.on("click", function() {
+        alert("Hello!");
+      });
+
+      stage.update();
+    </script>
+  </body>
+</html>
+

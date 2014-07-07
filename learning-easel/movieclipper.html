@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>EaselJS Example: MovieClips</title>
+
+    <link href="resources/demoStyles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload="init()">
+
+<header id="header" class="EaselJS">
+    <h1><span class="text-product">Easel<strong>JS</strong></span> MovieClips</h1>
+
+    <p>Demonstrates creating a MovieClip using JavaScript. Each shape instance tweened, and then the tweens are
+        added to the <b>MovieClip.timeline</b>. The timeline can then be controlled by JavaScript.</p>
+</header>
+
+<div class="canvasHolder">
+    <canvas id="testCanvas" width="960" height="400"></canvas>
+</div>
+<p>
+  <input id="mctime" type="range" min=0 max=80 style="width:850px; height:40px; float:left;" />
+  <button id="mctoggle" style="float:left; margin-left:10px; width:100; padding:10px;">Play/Pause</button>
+</p>
+
+<script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+<script src="http://code.createjs.com/movieclip-0.7.1.min.js"></script>
+<script type="text/javascript">
+    var mctime = document.getElementById("mctime");
+    var mc;
+    var mctoggle = document.getElementById("mctoggle");
+    function init() {
+        if (window.top != window) {
+            document.getElementById("header").style.display = "none";
+        }
+
+        var stage = new createjs.Stage("testCanvas");
+        createjs.Ticker.addEventListener("tick", stage);
+
+        // Create the MovieClip
+        mc = new createjs.MovieClip(null, 0, true, {start:0, middle:40});
+        mc.addEventListener('tick', function(e) {
+          if (!mc.paused) mctime.value = mc.currentFrame;
+        });
+        stage.addChild(mc);
+
+        mctime.onchange = function(){
+          if (mc.paused) mc.gotoAndStop(mctime.value);
+        };
+        mctoggle.onclick = function(){
+          if (mc.paused) mc.paused=false;
+          else mc.paused=true;
+        }
+
+        // Create the States. Each state is just a circle shape.
+        var state1 = new createjs.Shape(
+                new createjs.Graphics().beginFill("#999999")
+                        .drawCircle(100, 100, 100));
+        var state2 = new createjs.Shape(
+                new createjs.Graphics().beginFill("#5a9cfb")
+                    .drawCircle(100, 100, 100));
+
+        // Create a tween for each shape, animating from one side to the other.
+        mc.timeline.addTween(
+                createjs.Tween.get(state1)
+                        .to({x:0}).to({x:760}, 40).to({x:0}, 40));
+        mc.timeline.addTween(
+                createjs.Tween.get(state2)
+                        .to({x:760}).to({x:0}, 40).to({x:760}, 40));
+
+        // Play the animation starting from the middle. See the MovieClip constructor above where the labels are specified.
+        mc.gotoAndPlay("middle");
+    }
+</script>
+
+</body>
+</html>
