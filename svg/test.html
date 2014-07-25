@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      svg {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      #mouse {
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+
+      /* SVG Styles */
+      .pants {
+        fill:   lightslategray;
+        stroke: #555;
+      }
+      .pants .crease {
+        stroke: url(#crease-gradient);
+      }
+    </style>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/1999/xlink"
+      height="900" width="1500"
+      id="main">
+      <defs>
+        <linearGradient id="crease-gradient">
+          <stop offset="0%" stop-color="#555" stop-opacity="0.0" />
+          <stop offset="70%" stop-color="#555" stop-opacity="1.0" />
+          <stop offset="100%" stop-color="#555" stop-opacity="1.0" />
+        </linearGradient>
+      </defs>
+      <g id="pants" class="pants" >
+        <g id="hips">
+          <polygon id="260,625 " />
+        </g>
+        <g id="left-leg">
+          <polygon id="left-leg-lower" points="260,625 255,850 220,860 215,855 210,625" stroke-dasharray="500 50" />
+          <polygon id="left-leg-upper" points="245,400 260,625 258,650 253,660 215,655 210,625 198,490" stroke-dasharray="245 80 140 120" />
+          <polyline id="left-leg-crease" class="crease" points="220,860 220,630 210,490" />
+        </g>
+      </g>
+    </svg>
+    <div id="mouse"></div>
+    <script>
+    document.addEventListener('mousemove', function(e) {
+      document.getElementById("mouse").innerHTML = "( " + e.layerX.toString() + ", " + e.layerY.toString() + " )";
+    });
+    </script>
+  </body>
+</html>
+

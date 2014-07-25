@@ -5,6 +5,6 @@
  * game vars, etc. Some of these will be modified in config.js.
  */
 
-var canvas = document.getElementByTagName("canvas"),
+var canvas = document.getElementsByTagName("canvas")[0],
     ctx    = canvas.getContext('2d');
 
